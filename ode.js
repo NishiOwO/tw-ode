@@ -2,7 +2,7 @@
 // ID: nishiowoOde
 // Description: 3D physics using ODE.
 // By: NishiOwO
-// License: BSD-3-Clause
+// License: MIT or BSD-3-Clause
 
 // Repository is at https://github.com/NishiOwO/tw-ode
 
