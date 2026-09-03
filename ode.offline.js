@@ -98,6 +98,7 @@
     dJointGetHinge2Axis1,
     dJointGetHinge2Axis2,
     dJointGetHinge2Angle1,
+    dJointGetHinge2Angle2,
     dJointSetPRAxis1,
     dJointGetPRAxis1,
     dJointSetPRAxis2,
@@ -148,7 +149,6 @@
     dJointSetTransmissionAxis2,
     dJointGetPRAngle,
     dJointGetTransmissionAngle1,
-    dJointGetHingeAngle2,
     dJointGetTransmissionAngle2,
     dJointAddPRTorque,
     dJointAddPUTorques;
@@ -3059,6 +3059,9 @@ embedded = true;
   dJointGetHinge2Angle1 = Module.cwrap("dJointGetHinge2Angle1", "number", [
     "number",
   ]);
+  dJointGetHinge2Angle2 = Module.cwrap("dJointGetHinge2Angle2", "number", [
+    "number",
+  ]);
   dJointSetPRAxis1 = Module.cwrap("dJointSetPRAxis1", null, [
     "number",
     "number",
@@ -4045,53 +4048,55 @@ embedded = true;
         ],
       };
 
-      if(Scratch.extensions.isPenguinMod && divVecQuat){
-	base.blocks.push({
-          blockType: "label",
-          text: Scratch.translate("3D Vectors & Quats compatibility"),
-        },
-        {
-          opcode: "divVecToVector",
-          text: Scratch.translate("div vector [INPUT] to vector"),
-          ...divVecQuat.Vector.Block,
-          arguments: {
-            INPUT: {
-              ...divVecQuat.Vector.Argument
-            }
+      if (Scratch.extensions.isPenguinMod && divVecQuat) {
+        base.blocks.push(
+          {
+            blockType: "label",
+            text: Scratch.translate("3D Vectors & Quats compatibility"),
+          },
+          {
+            opcode: "divVecToVector",
+            text: Scratch.translate("div vector [INPUT] to vector"),
+            ...divVecQuat.Vector.Block,
+            arguments: {
+              INPUT: {
+                ...divVecQuat.Vector.Argument,
+              },
+            },
+          },
+          {
+            opcode: "vectorToDivVec",
+            text: Scratch.translate("vector [INPUT] to div vector"),
+            ...divVecQuat.Vector.Block,
+            arguments: {
+              INPUT: {
+                type: arg_array,
+                defaultValue: from_array([0, 0, 0]),
+              },
+            },
+          },
+          {
+            opcode: "divQuatToQuaternion",
+            text: Scratch.translate("div quaternion [INPUT] to quaternion"),
+            ...divVecQuat.Quat.Block,
+            arguments: {
+              INPUT: {
+                ...divVecQuat.Quat.Argument,
+              },
+            },
+          },
+          {
+            opcode: "quaternionToDivQuat",
+            text: Scratch.translate("quaternion [INPUT] to div quaternion"),
+            ...divVecQuat.Quat.Block,
+            arguments: {
+              INPUT: {
+                type: arg_array,
+                defaultValue: from_array([0, 0, 0, 0]),
+              },
+            },
           }
-        },
-        {
-          opcode: "vectorToDivVec",
-          text: Scratch.translate("vector [INPUT] to div vector"),
-          ...divVecQuat.Vector.Block,
-          arguments: {
-            INPUT: {
-              type: arg_array,
-              defaultValue: from_array([0, 0, 0])
-            }
-          }
-        },
-        {
-          opcode: "divQuatToQuaternion",
-          text: Scratch.translate("div quaternion [INPUT] to quaternion"),
-          ...divVecQuat.Quat.Block,
-          arguments: {
-            INPUT: {
-              ...divVecQuat.Quat.Argument
-            }
-          }
-        },
-        {
-          opcode: "quaternionToDivQuat",
-          text: Scratch.translate("quaternion [INPUT] to div quaternion"),
-          ...divVecQuat.Quat.Block,
-          arguments: {
-            INPUT: {
-              type: arg_array,
-              defaultValue: from_array([0, 0, 0, 0])
-            }
-          }
-        });
+        );
       }
 
       return base;
@@ -5287,7 +5292,7 @@ embedded = true;
       let m;
       switch (joints[joint].type) {
         case dJointCreateHinge2:
-          m = dJointGetHingeAngle2;
+          m = dJointGetHinge2Angle2;
           break;
         case dJointCreateUniversal:
           m = dJointGetUniversalAngle2;
@@ -5397,22 +5402,22 @@ embedded = true;
       }
     }
 
-    divVecToVector(args){
+    divVecToVector(args) {
       const input = divVecQuat.Vector.Type.toVector3D(args.INPUT);
       return from_array([input.x, input.y, input.z]);
     }
-    
-    vectorToDivVec(args){
+
+    vectorToDivVec(args) {
       const input = to_f32array(args.INPUT);
       return new divVecQuat.Vector.Type(input[0], input[1], input[2]);
     }
-    
-    divQuatToQuaternion(args){
+
+    divQuatToQuaternion(args) {
       const input = divVecQuat.Quat.Type.toQuat(args.INPUT);
       return from_array([input.r, input.yz, input.xz, input.xy]);
     }
-    
-    quaternionToDivQuat(args){
+
+    quaternionToDivQuat(args) {
       const input = to_f32array(args.INPUT);
       return new divVecQuat.Quat.Type(input[3], input[0], input[1], input[2]);
     }
