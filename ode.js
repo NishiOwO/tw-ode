@@ -190,7 +190,7 @@
     ode = ODEWASM;
   } else {
     ode = await Scratch.external.evalAndReturn(
-      "https://raw.githubusercontent.com/NishiOwO/tw-ode/d580df0057453d3d950c9b65c5672fbe4a160768/odejs.js",
+      "https://raw.githubusercontent.com/NishiOwO/tw-ode/e5f54b5e05ae363e937740af0c81b217e06c15e8/odejs.js",
       "ODEWASM"
     );
   }
