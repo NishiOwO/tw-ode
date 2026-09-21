@@ -1695,6 +1695,7 @@
           {
             opcode: "divVecToVector",
             blockType: Scratch.BlockType.REPORTER,
+            ...blk_array_obj,
             text: Scratch.translate("div vector [INPUT] to vector"),
             arguments: {
               INPUT: {
@@ -1710,6 +1711,7 @@
               INPUT: {
                 type: arg_array,
                 defaultValue: from_array([0, 0, 0]),
+                ...arg_array_obj,
               },
             },
           },
@@ -1717,6 +1719,7 @@
             opcode: "divQuatToQuaternion",
             text: Scratch.translate("div quaternion [INPUT] to quaternion"),
             blockType: Scratch.BlockType.REPORTER,
+            ...blk_array_obj,
             arguments: {
               INPUT: {
                 ...divVecQuat.Quat.Argument,
@@ -1731,6 +1734,7 @@
               INPUT: {
                 type: arg_array,
                 defaultValue: from_array([0, 0, 0, 0]),
+                ...arg_array_obj,
               },
             },
           }
