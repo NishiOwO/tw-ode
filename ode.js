@@ -1598,6 +1598,7 @@
               ARRAY: {
                 type: arg_array,
                 defaultValue: from_array([0, 0, 0]),
+                ...arg_array_obj,
               },
               TYPE: {
                 type: Scratch.ArgumentType.STRING,
@@ -1620,10 +1621,12 @@
               AXIS1: {
                 type: arg_array,
                 defaultValue: from_array([0, 0, 0]),
+                ...arg_array_obj,
               },
               AXIS2: {
                 type: arg_array,
                 defaultValue: from_array([0, 0, 0]),
+                ...arg_array_obj,
               },
             },
           },
